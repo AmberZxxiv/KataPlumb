@@ -7,7 +7,7 @@ public class Player_Control : MonoBehaviour
 
     private Rigidbody rb;
     public float movSpeed;
-    private float movFrontal;
+    private bool isMoving;
 
     //mover la camara con el ratón
     public float mouseSensitivity;
@@ -20,8 +20,8 @@ public class Player_Control : MonoBehaviour
     {
         Time.timeScale = 1;
         rb = GetComponent<Rigidbody>();
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false ;
     }
 
     // Update is called once per frame
@@ -35,18 +35,18 @@ public class Player_Control : MonoBehaviour
         // lo copiamos en la camara y la linterna, y lo bloqueamos en los polos
         cameraTransform.localRotation = Quaternion.Euler(mouseRotation, 0, 0);
         lanternTransform.localRotation = Quaternion.Euler(mouseRotation, 0, 0);
-        // aqui tengo que hacer algo para que la linterna siga al cursor
-    }
 
-    private void FixedUpdate()
-    {
-        // si pulsamos el clic dch que avance por la alcantarilla
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetMouseButtonDown(1)) // cuando esta pulsado el clic DCH
         {
-            //actualizamos los valores al transform cuando nos movemos
-            Vector3 playerMovement = (transform.forward * movFrontal);
-            Vector3 playerSpeed = new Vector3(playerMovement.x * movSpeed, rb.velocity.y, playerMovement.z * movSpeed);
-            rb.velocity = playerSpeed;
+            isMoving = true ;
+        }
+        if (Input.GetMouseButtonUp(1)) // cuando suelto el clic DCH
+        {
+            isMoving = false;
+        }
+        if (isMoving) //moverse es avanzar adelante a velocidad constante
+        {
+            transform.Translate(Vector3.forward * movSpeed * Time.deltaTime);
         }
     }
 }

@@ -15,6 +15,12 @@ public class Player_Control : MonoBehaviour
     public Transform cameraTransform;
     public Transform lanternTransform;
 
+    //animaciones
+    private Animator animator;
+    public GameObject manos;
+    float timer = 0f;
+    bool scrolling = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +28,8 @@ public class Player_Control : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false ;
+
+        animator = manos.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -48,5 +56,41 @@ public class Player_Control : MonoBehaviour
         {
             transform.Translate(Vector3.forward * movSpeed * Time.deltaTime);
         }
+
+        //if(Input.GetMouseButtonDown(2))
+        //{
+        //    //animacion de agachar la cabeza
+        //    Debug.Log("muevete");
+        //    animator.SetBool("SACAR_LINTERNA", true);
+        //}
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0f)
+        {
+            scrolling = true;
+            timer = 0f;
+        }
+        else if (scrolling)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.2f)
+            {
+                scrolling = false;
+                
+            }
+        }
+        if (scroll > 0f || scroll < 0f)
+        {
+            
+            Debug.Log("muevete");
+            animator.SetBool("SACAR_LINTERNA", true);
+            
+        }
+        else if (scrolling == false)
+        {
+            animator.SetBool("SACAR_LINTERNA", false);
+        }
+
+
     }
 }

@@ -54,7 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d83589d0eb4733545bbdae01f327735e, type: 2}
     - target: {fileID: 919132149155446097, guid: ebd61f12b84cba24e9dd772beeb8f28c, type: 3}
       propertyPath: m_Name
-      value: kataplumb-DOOR6
+      value: pre_exit_door
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ebd61f12b84cba24e9dd772beeb8f28c, type: 3}
+      propertyPath: m_TagString
+      value: exitdoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

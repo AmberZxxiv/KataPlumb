@@ -12,8 +12,8 @@ public class System_Manager : MonoBehaviour
     public List<Plumb_Controler> plumbs = new List<Plumb_Controler>();
 
     // marcamos las probabilidades para que se rompan
-    float timeToBreak = 1f;
-    float probabilityToBreak = 0.9f;
+    float timeToBreak = 2f;
+    float probabilityToBreak = 0.5f;
 
     // por alguna razon sin este awake no genera la instancia y/o no lo pillan las plumbs
     void Awake()

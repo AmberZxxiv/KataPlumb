@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e81edbbc399b64f92a49166bbe285a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBroken: 0
 --- !u!1001 &4611451961787241236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57,6 +58,10 @@ PrefabInstance:
     - target: {fileID: 3535130436534183793, guid: c1f4c41b04c51014682ad1cfce27ecf4, type: 3}
       propertyPath: m_Name
       value: Pre_Break_Curv
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535130436534183793, guid: c1f4c41b04c51014682ad1cfce27ecf4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4198655344831561163, guid: c1f4c41b04c51014682ad1cfce27ecf4, type: 3}
       propertyPath: m_LocalPosition.x

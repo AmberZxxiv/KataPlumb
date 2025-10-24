@@ -4,17 +4,37 @@ using UnityEngine;
 
 public class Plumb_Controler : MonoBehaviour
 {
-    public bool isBrocken;
+    public bool isBroken = false;
+    public GameObject childRepared;
+    public GameObject childBroken;
+    public System_Manager _SM;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // aqui pillo la referencia del system porque solo funciona así y yo que se
+        _SM = System_Manager.instance;
+        if (_SM != null)
+        {
+            _SM.CountPlumb(this);
+        }
+
+        // por alguna razon con el if funciona pero sino no. OK :/
+        if (transform.childCount >= 2)
+        {
+            // cojo los hijos para los estados de la plumb
+            childRepared = transform.GetChild(0).gameObject;
+            childBroken = transform.GetChild(1).gameObject;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchState()
     {
-        
+        if (childBroken != null && childRepared != null)
+        {
+            // tiene que estar en este orden o sino no funciona jaja saludos
+            isBroken = !isBroken;
+            childBroken.SetActive(isBroken);
+            childRepared.SetActive(!isBroken);
+        }
     }
 }

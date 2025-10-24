@@ -19,7 +19,16 @@ public class Player_Control : MonoBehaviour
     private Animator animator;
     public GameObject manos;
     float timer = 0f;
-    bool scrolling = false;
+    [SerializeField] bool scrolling = false;
+
+    //linterna
+    public Light linterna;
+    public float bateria = 10f;
+    public float duracion;
+    public float masscroll = 0.2f;
+    public float luzmax = 5f;
+    public float luzmin = 0f;
+    public float luzactual;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +39,8 @@ public class Player_Control : MonoBehaviour
         Cursor.visible = false ;
 
         animator = manos.GetComponent<Animator>();
+        duracion = bateria;
+        luzactual = luzmax;
     }
 
     // Update is called once per frame
@@ -46,7 +57,7 @@ public class Player_Control : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1)) // cuando esta pulsado el clic DCH
         {
-            isMoving = true ;
+            isMoving = true;
         }
         if (Input.GetMouseButtonUp(1)) // cuando suelto el clic DCH
         {
@@ -57,40 +68,30 @@ public class Player_Control : MonoBehaviour
             transform.Translate(Vector3.forward * movSpeed * Time.deltaTime);
         }
 
-        //if(Input.GetMouseButtonDown(2))
-        //{
-        //    //animacion de agachar la cabeza
-        //    Debug.Log("muevete");
-        //    animator.SetBool("SACAR_LINTERNA", true);
-        //}
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0f)
-        {
-            scrolling = true;
-            timer = 0f;
-        }
-        else if (scrolling)
+        FlashLightRecharge();
+    }
+
+    void FlashLightRecharge()
+    {
+        scrolling = Input.GetAxis("Mouse ScrollWheel") != 0 ? true : false; //scrolling es la rueda del raton y si lo esta heciendo es true y si no es false
+
+        if (!scrolling) //si no esta scrolleando suma el timer y si es mayor de 02 baje la intensidad de la linterna y quite la animacion
         {
             timer += Time.deltaTime;
             if (timer > 0.2f)
             {
-                scrolling = false;
-                
+                luzactual -= Time.deltaTime/2;
+                animator.SetBool("SACAR_LINTERNA", false);
             }
         }
-        if (scroll > 0f || scroll < 0f)
+        else //que al hacer scroll se ponga la animacion y suba la intensidad con el timer a 0
         {
-            
-            Debug.Log("muevete");
             animator.SetBool("SACAR_LINTERNA", true);
-            
+            luzactual += Time.deltaTime*2;
+            timer = 0;
         }
-        else if (scrolling == false)
-        {
-            animator.SetBool("SACAR_LINTERNA", false);
-        }
-
-
+        luzactual = Mathf.Clamp(luzactual, luzmin, luzmax); //pone la luz actual
+        linterna.intensity = luzactual;
     }
 }

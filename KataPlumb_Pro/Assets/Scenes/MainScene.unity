@@ -2324,6 +2324,14 @@ MonoBehaviour:
   cameraTransform: {fileID: 963194228}
   lanternTransform: {fileID: 1697894989}
   manos: {fileID: 922874801}
+  scrolling: 0
+  linterna: {fileID: 1697894990}
+  bateria: 10
+  duracion: 0
+  masscroll: 0.2
+  luzmax: 5
+  luzmin: 0
+  luzactual: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3907,7 +3915,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 5.21
   m_Range: 25
   m_SpotAngle: 54
   m_InnerSpotAngle: 5

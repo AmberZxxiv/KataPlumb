@@ -15,7 +15,7 @@ public class System_Manager : MonoBehaviour
     float timeToBreak = 2f;
     float probabilityToBreak = 0.5f;
 
-    // por alguna razon sin este awake no genera la instancia y/o no lo pillan las plumbs
+    // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
     {
         if (instance == null)

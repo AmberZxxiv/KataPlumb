@@ -12,7 +12,7 @@ public class Plumb_Controler : MonoBehaviour
 
     void Start()
     {
-        // aqui pillo las referencias de scripts porque solo funciona así yo que se
+        // aqui pillo las referencias de scripts
         _PC = Player_Control.instance;
         _SM = System_Manager.instance;
         if (_SM != null)

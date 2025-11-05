@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -46,7 +47,13 @@ public class Player_Control : MonoBehaviour
     public float luzactual;
     #endregion
 
-    // por alguna razon sin este awake no genera la instancia y/o no lo pillan las plumbs
+    #region //// SCORE ////
+    public TextMeshProUGUI scoreTXT;
+    public TextMeshProUGUI maxscore;
+    private int _score;
+    #endregion
+
+    // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
     {
         if (instance == null)
@@ -108,16 +115,19 @@ public class Player_Control : MonoBehaviour
             RaycastHit hit;
             #endregion
 
-            //dentro del rango colisiono con la plumb rota, llamo al cambio de estado del padre
+            //en rango colisiono con plumb rota, llamo a cambio de estado y sumo puntos
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.CompareTag("plumbroke"))
             {
                 Plumb_Controler plumToRepare = hit.collider.GetComponentInParent<Plumb_Controler>();
                 plumToRepare.SwitchState();
+                _score += 10;
+                scoreTXT.text = "Earned: " + _score.ToString() + " $";
             }
 
             //dentro del rango colisiono con la verja de salida, activo FIN DE JORNADA
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.CompareTag("exitdoor"))
             {
+                SetMaxScore();
                 Time.timeScale = 0;
                 exitMenu.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
@@ -128,6 +138,7 @@ public class Player_Control : MonoBehaviour
         // pulsamos ESC para panel de PAUSA
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            SetMaxScore();
             Time.timeScale = 0;
             pauseMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -162,11 +173,21 @@ public class Player_Control : MonoBehaviour
         linterna.intensity = luzactual;
     }
 
+    public void SetMaxScore() // recoge la puntuación, la actualiza y muestra
+    {
+        maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
+        if (_score > PlayerPrefs.GetInt("MaxScore") || !PlayerPrefs.HasKey("MaxScore"))
+        {
+            PlayerPrefs.SetInt("MaxScore", _score);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // si te choca el cocodrilo, activo el menu de comido
         if (other.CompareTag("crocodile"))
         {
+            SetMaxScore();
             Time.timeScale = 0;
             eatedMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.None;

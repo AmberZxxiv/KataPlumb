@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class Player_Control : MonoBehaviour
@@ -53,6 +54,10 @@ public class Player_Control : MonoBehaviour
     private int _score;
     #endregion
 
+    public NavMeshAgent NavMeshAgent;
+    public GameObject puntoA;
+    public GameObject puntoB;
+
     // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
     {
@@ -78,6 +83,7 @@ public class Player_Control : MonoBehaviour
         animator = manos.GetComponent<Animator>();
         duracion = bateria;
         luzactual = luzmax;
+
     }
 
     // Update is called once per frame
@@ -97,6 +103,7 @@ public class Player_Control : MonoBehaviour
         if (Input.GetMouseButtonDown(1)) // mientras clic DCH
         {
             isMoving = true;
+            NavMeshAgent.SetDestination(puntoA.transform.position);
         }
         if (Input.GetMouseButtonUp(1)) // soltando clic DCH
         {

@@ -159,14 +159,14 @@ public class Player_Control : MonoBehaviour
             timer += Time.deltaTime; // suma el timer
             if (timer > 0.2f) //si es mayor de 02
             {
-                luzactual -= Time.deltaTime/3; // cuanto +, + lento baja la intensidad
+                luzactual -= Time.deltaTime/4; // cuanto +, + lento baja la intensidad
                 animator.SetBool("SACAR_LINTERNA", false); // quite la animacion
             }
         }
         else //que al hacer scroll se ponga la animacion y suba la intensidad con el timer a 0
         {
             animator.SetBool("SACAR_LINTERNA", true);
-            luzactual += Time.deltaTime*3; // cuanto +, +rapido recargas
+            luzactual += Time.deltaTime*8; // cuanto +, +rapido recargas
             timer = 0;
         }
         luzactual = Mathf.Clamp(luzactual, luzmin, luzmax); //pone la luz actual

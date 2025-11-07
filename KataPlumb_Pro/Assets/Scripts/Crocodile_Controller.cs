@@ -7,9 +7,6 @@ public class Crocodile_Controller : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public GameObject goalDestination;
-    public float speedClose = 1f;
-    public float speedMidle = 5f;
-    public float speedFar = 10f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +23,11 @@ public class Crocodile_Controller : MonoBehaviour
 
     void CheckDistance()
     {
-        if (Vector3.Distance(transform.position,goalDestination.transform.position) < 9)
+        if (Vector3.Distance(transform.position,goalDestination.transform.position) < 10)
         {
             ChangeSpeed(0);
         }
-        else if (Vector3.Distance(transform.position, goalDestination.transform.position) < 17)
+        else if (Vector3.Distance(transform.position, goalDestination.transform.position) < 20)
         {
             ChangeSpeed(1);
         }
@@ -47,16 +44,15 @@ public class Crocodile_Controller : MonoBehaviour
         switch (distance)
         {
             case 0:
-                actualSpeed = speedClose;
+                actualSpeed = 1f;
                 break;
             case 1:
-                actualSpeed = speedMidle;
+                actualSpeed = 3f;
                 break;
             case 2:
-                actualSpeed = speedFar;
+                actualSpeed = 10f;
                 break;
         }
         navMeshAgent.speed = actualSpeed;
-        Debug.Log(actualSpeed);
     }
 }

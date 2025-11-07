@@ -37,7 +37,9 @@ public class Player_Control : MonoBehaviour
 
     #region //// ANIMATIONS ////
     private Animator animator;
+    //public Animator animatormuerte;
     public GameObject manos;
+    //public GameObject eater;
     float timer = 0f;
     [SerializeField] bool scrolling = false;
     #endregion
@@ -85,6 +87,7 @@ public class Player_Control : MonoBehaviour
         animator = manos.GetComponent<Animator>();
         duracion = bateria;
         luzactual = luzmax;
+        //animator = eater.GetComponent<Animator>(); 
         //targetpoint = puntos[1];
     }
 
@@ -211,8 +214,9 @@ public class Player_Control : MonoBehaviour
         if (other.CompareTag("crocodile"))
         {
             SetMaxScore();
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
             eatedMenu.SetActive(true);
+            //animatormuerte.Play(cierra);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }

@@ -7,8 +7,8 @@ public class Crocodile_Controller : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public GameObject goalDestination;
-    public float speedClose = 2f;
-    public float speedMidle = 6f;
+    public float speedClose = 1f;
+    public float speedMidle = 5f;
     public float speedFar = 10f;
 
     // Start is called before the first frame update

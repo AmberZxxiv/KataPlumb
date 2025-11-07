@@ -21,8 +21,10 @@ public class Player_Control : MonoBehaviour
 
     #region //// PLAYER MOVEMENT ////
     private Rigidbody rb;
-    public float movSpeed;
-    private bool isMoving;
+    public NavMeshAgent NavMeshAgent;
+    public int actualTarget;
+    float playerSpeed;
+    public Transform[] targets;
     #endregion
 
     #region //// CAM CONTROL ////
@@ -55,11 +57,6 @@ public class Player_Control : MonoBehaviour
     private int _score;
     #endregion
 
-    public NavMeshAgent NavMeshAgent;
-    public int actualTarget;
-    float playerSpeed;
-    public Transform[] targets;
-
     // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
     {
@@ -77,6 +74,7 @@ public class Player_Control : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerSpeed = NavMeshAgent.speed;
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -85,14 +83,12 @@ public class Player_Control : MonoBehaviour
         animator = manos.GetComponent<Animator>();
         duracion = bateria;
         luzactual = luzmax;
-        playerSpeed = NavMeshAgent.speed;
         //targetpoint = puntos[1];
     }
 
     // Update is called once per frame
     void Update()
     {
-        NavMeshAgent.SetDestination(targets[actualTarget].position);
         #region //// CAM FIRST PERSON ////
         // cogemos el valor del cursor para poder darlo de vuelta
         float horizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -104,15 +100,18 @@ public class Player_Control : MonoBehaviour
         lanternTransform.localRotation = Quaternion.Euler(mouseRotation, 0, 0);
         #endregion
 
+        //le digo que vaya al target actual
+        NavMeshAgent.SetDestination(targets[actualTarget].position); 
+        // si esta dentro del rango del target, cambia al siguiente
         if (Vector3.Distance(this.transform.position, targets[actualTarget].transform.position)<=1f)
         {
             NextTarget();
         }
-        if (Input.GetMouseButton(1)) // mientras clic DCH
+        if (Input.GetMouseButton(1)) // mientras clic DCH velocidad
         {
             NavMeshAgent.speed = playerSpeed;
         }
-        else
+        else // si NO clic DCH, no velocidad
         {
             NavMeshAgent.speed = 0;
         }
@@ -161,8 +160,6 @@ public class Player_Control : MonoBehaviour
         // FUNCION DE LINTERNA
     }
 
-
-
     void FlashLightRecharge()
     {
         scrolling = Input.GetAxis("Mouse ScrollWheel") != 0 ? true : false; //scrolling es la rueda del raton y si lo esta heciendo es true y si no es false
@@ -188,10 +185,20 @@ public class Player_Control : MonoBehaviour
 
     public void SetMaxScore() // recoge la puntuación, la actualiza y muestra
     {
-        maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
         if (_score > PlayerPrefs.GetInt("MaxScore") || !PlayerPrefs.HasKey("MaxScore"))
         {
             PlayerPrefs.SetInt("MaxScore", _score);
+        }
+        maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
+    }
+
+    void NextTarget()
+    {
+        actualTarget++;
+        // si el target es mayor que el máximo de la lista, vuelve al 0
+        if (actualTarget > targets.Length - 1)
+        {
+            actualTarget = 0;
         }
     }
 
@@ -224,13 +231,4 @@ public class Player_Control : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    void NextTarget()
-    {
-        actualTarget++;
-        Debug.Log(targets.Length);
-        if (actualTarget > targets.Length-1)
-        {
-            actualTarget = 0;
-        }
-    }
 }

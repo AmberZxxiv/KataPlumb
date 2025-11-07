@@ -12,8 +12,11 @@ public class System_Manager : MonoBehaviour
     public List<Plumb_Controler> plumbs = new List<Plumb_Controler>();
 
     // marcamos las probabilidades para que se rompan
-    float timeToBreak = 1f;
+    float timeToBreak = 0.75f;
     float probabilityToBreak = 0.75f;
+
+    // controlador del agua
+    public GameObject water;
 
     // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
@@ -51,10 +54,11 @@ public class System_Manager : MonoBehaviour
         Plumb_Controler plumToBreak = plumbs[Random.Range(0,plumbs.Count)];
         // genero un numero aleatorio y si es válido doy paso a romperla
         bool canWeBreak = Random.Range(0,1) < probabilityToBreak ? true : false;
-        // si esta plumb no está rota ya, la rompo
+        // si esta plumb no está rota ya, la rompo y sumo agua
         if (!plumToBreak.isBroken && canWeBreak)
         {
             plumToBreak.SwitchState();
+            water.transform.position += new Vector3(0, 10, 0) * Time.deltaTime;
         }
 
         StartCoroutine(BreakRandomPlumb());

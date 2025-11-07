@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player_Control : MonoBehaviour
 {
@@ -19,8 +22,10 @@ public class Player_Control : MonoBehaviour
 
     #region //// PLAYER MOVEMENT ////
     private Rigidbody rb;
-    public float movSpeed;
-    private bool isMoving;
+    public NavMeshAgent NavMeshAgent;
+    public int actualTarget;
+    float playerSpeed;
+    public Transform[] targets;
     #endregion
 
     #region //// CAM CONTROL ////
@@ -51,6 +56,7 @@ public class Player_Control : MonoBehaviour
     public TextMeshProUGUI scoreTXT;
     public TextMeshProUGUI maxscore;
     private int _score;
+    public GameObject water;
     #endregion
 
     // sin este awake no genera su instancia y no la pillan las plumbs
@@ -70,6 +76,7 @@ public class Player_Control : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerSpeed = NavMeshAgent.speed;
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -78,6 +85,7 @@ public class Player_Control : MonoBehaviour
         animator = manos.GetComponent<Animator>();
         duracion = bateria;
         luzactual = luzmax;
+        //targetpoint = puntos[1];
     }
 
     // Update is called once per frame
@@ -94,18 +102,22 @@ public class Player_Control : MonoBehaviour
         lanternTransform.localRotation = Quaternion.Euler(mouseRotation, 0, 0);
         #endregion
 
-        if (Input.GetMouseButtonDown(1)) // mientras clic DCH
+        //le digo que vaya al target actual
+        NavMeshAgent.SetDestination(targets[actualTarget].position); 
+        // si esta dentro del rango del target, cambia al siguiente
+        if (Vector3.Distance(this.transform.position, targets[actualTarget].transform.position)<=1f)
         {
-            isMoving = true;
+            NextTarget();
         }
-        if (Input.GetMouseButtonUp(1)) // soltando clic DCH
+        if (Input.GetMouseButton(1)) // mientras clic DCH velocidad
         {
-            isMoving = false;
+            NavMeshAgent.speed = playerSpeed;
         }
-        if (isMoving) //avanzar adelante a velocidad constante
+        else // si NO clic DCH, no velocidad
         {
-            transform.Translate(Vector3.forward * movSpeed * Time.deltaTime);
+            NavMeshAgent.speed = 0;
         }
+        
 
         if (Input.GetMouseButtonDown(0)) // CLIC IZQUIERDO
         {
@@ -115,11 +127,12 @@ public class Player_Control : MonoBehaviour
             RaycastHit hit;
             #endregion
 
-            //en rango colisiono con plumb rota, llamo a cambio de estado y sumo puntos
+            //en rango colisiono con plumb rota, llamo al switch, sumo puntos y resto agua
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.CompareTag("plumbroke"))
             {
                 Plumb_Controler plumToRepare = hit.collider.GetComponentInParent<Plumb_Controler>();
                 plumToRepare.SwitchState();
+                water.transform.position += new Vector3(0, -10, 0) * Time.deltaTime;
                 _score += 10;
                 scoreTXT.text = "Earned: " + _score.ToString() + " $";
             }
@@ -159,14 +172,14 @@ public class Player_Control : MonoBehaviour
             timer += Time.deltaTime; // suma el timer
             if (timer > 0.2f) //si es mayor de 02
             {
-                luzactual -= Time.deltaTime/4; // cuanto +, + lento baja la intensidad
+                luzactual -= Time.deltaTime/5; // cuanto +, + lento baja la intensidad
                 animator.SetBool("SACAR_LINTERNA", false); // quite la animacion
             }
         }
         else //que al hacer scroll se ponga la animacion y suba la intensidad con el timer a 0
         {
             animator.SetBool("SACAR_LINTERNA", true);
-            luzactual += Time.deltaTime*8; // cuanto +, +rapido recargas
+            luzactual += Time.deltaTime*10; // cuanto +, +rapido recargas
             timer = 0;
         }
         luzactual = Mathf.Clamp(luzactual, luzmin, luzmax); //pone la luz actual
@@ -175,10 +188,20 @@ public class Player_Control : MonoBehaviour
 
     public void SetMaxScore() // recoge la puntuación, la actualiza y muestra
     {
-        maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
         if (_score > PlayerPrefs.GetInt("MaxScore") || !PlayerPrefs.HasKey("MaxScore"))
         {
             PlayerPrefs.SetInt("MaxScore", _score);
+        }
+        maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
+    }
+
+    void NextTarget()
+    {
+        actualTarget++;
+        // si el target es mayor que el máximo de la lista, vuelve al 0
+        if (actualTarget > targets.Length - 1)
+        {
+            actualTarget = 0;
         }
     }
 
@@ -210,4 +233,5 @@ public class Player_Control : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
 }

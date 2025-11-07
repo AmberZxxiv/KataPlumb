@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -55,8 +56,9 @@ public class Player_Control : MonoBehaviour
     #endregion
 
     public NavMeshAgent NavMeshAgent;
-    public GameObject puntoA;
-    public GameObject puntoB;
+    public int actualTarget;
+    float playerSpeed;
+    public Transform[] targets;
 
     // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
@@ -83,12 +85,14 @@ public class Player_Control : MonoBehaviour
         animator = manos.GetComponent<Animator>();
         duracion = bateria;
         luzactual = luzmax;
-
+        playerSpeed = NavMeshAgent.speed;
+        //targetpoint = puntos[1];
     }
 
     // Update is called once per frame
     void Update()
     {
+        NavMeshAgent.SetDestination(targets[actualTarget].position);
         #region //// CAM FIRST PERSON ////
         // cogemos el valor del cursor para poder darlo de vuelta
         float horizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -100,19 +104,19 @@ public class Player_Control : MonoBehaviour
         lanternTransform.localRotation = Quaternion.Euler(mouseRotation, 0, 0);
         #endregion
 
-        if (Input.GetMouseButtonDown(1)) // mientras clic DCH
+        if (Vector3.Distance(this.transform.position, targets[actualTarget].transform.position)<=1f)
         {
-            isMoving = true;
-            NavMeshAgent.SetDestination(puntoA.transform.position);
+            NextTarget();
         }
-        if (Input.GetMouseButtonUp(1)) // soltando clic DCH
+        if (Input.GetMouseButton(1)) // mientras clic DCH
         {
-            isMoving = false;
+            NavMeshAgent.speed = playerSpeed;
         }
-        if (isMoving) //avanzar adelante a velocidad constante
+        else
         {
-            transform.Translate(Vector3.forward * movSpeed * Time.deltaTime);
+            NavMeshAgent.speed = 0;
         }
+        
 
         if (Input.GetMouseButtonDown(0)) // CLIC IZQUIERDO
         {
@@ -156,6 +160,8 @@ public class Player_Control : MonoBehaviour
         FlashLightRecharge();
         // FUNCION DE LINTERNA
     }
+
+
 
     void FlashLightRecharge()
     {
@@ -216,5 +222,15 @@ public class Player_Control : MonoBehaviour
     public void MainMenu() // carga la escena de menu inicial
     {
         SceneManager.LoadScene(0);
+    }
+
+    void NextTarget()
+    {
+        actualTarget++;
+        Debug.Log(targets.Length);
+        if (actualTarget > targets.Length-1)
+        {
+            actualTarget = 0;
+        }
     }
 }

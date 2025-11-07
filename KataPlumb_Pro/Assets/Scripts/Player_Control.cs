@@ -37,9 +37,7 @@ public class Player_Control : MonoBehaviour
 
     #region //// ANIMATIONS ////
     private Animator animator;
-    //public Animator animatormuerte;
     public GameObject manos;
-    //public GameObject eater;
     float timer = 0f;
     [SerializeField] bool scrolling = false;
     #endregion
@@ -87,8 +85,6 @@ public class Player_Control : MonoBehaviour
         animator = manos.GetComponent<Animator>();
         duracion = bateria;
         luzactual = luzmax;
-        //animator = eater.GetComponent<Animator>(); 
-        //targetpoint = puntos[1];
     }
 
     // Update is called once per frame
@@ -105,6 +101,7 @@ public class Player_Control : MonoBehaviour
         lanternTransform.localRotation = Quaternion.Euler(mouseRotation, 0, 0);
         #endregion
 
+        #region //// MOV AUTO PLAYER ////
         //le digo que vaya al target actual
         NavMeshAgent.SetDestination(targets[actualTarget].position); 
         // si esta dentro del rango del target, cambia al siguiente
@@ -120,7 +117,7 @@ public class Player_Control : MonoBehaviour
         {
             NavMeshAgent.speed = 0;
         }
-        
+        #endregion
 
         if (Input.GetMouseButtonDown(0)) // CLIC IZQUIERDO
         {
@@ -151,10 +148,20 @@ public class Player_Control : MonoBehaviour
             }
         }
 
+        // si el agua llega al límite, activamos la muerte por ahogamiento
+        if (water.transform.position.y >= 10.35f)
+        {
+            maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
+            Time.timeScale = 0;
+            drownedMenu.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         // pulsamos ESC para panel de PAUSA
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SetMaxScore();
+            maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
             Time.timeScale = 0;
             pauseMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -168,7 +175,7 @@ public class Player_Control : MonoBehaviour
 
     void FlashLightRecharge()
     {
-        scrolling = Input.GetAxis("Mouse ScrollWheel") != 0 ? true : false; //scrolling es la rueda del raton y si lo esta heciendo es true y si no es false
+        scrolling = Input.GetAxis("Mouse ScrollWheel") != 0 ? true : false; //scrolling es la rueda del raton y si lo esta haciendo es true y si no es false
 
         if (!scrolling) //si no esta scrolleando
         {
@@ -213,14 +220,13 @@ public class Player_Control : MonoBehaviour
         // si te choca el cocodrilo, activo el menu de comido
         if (other.CompareTag("crocodile"))
         {
-            SetMaxScore();
-            //Time.timeScale = 0;
+            maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
             eatedMenu.SetActive(true);
-            //animatormuerte.Play(cierra);
+            //Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-    } //pa chocar con el cocodrilo
+    } 
 
     public void QuitPause() // quita el panel de pausa, reanuda el tiempo y quita el cursor
     {

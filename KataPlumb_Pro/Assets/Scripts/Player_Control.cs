@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player_Control : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class Player_Control : MonoBehaviour
     public TextMeshProUGUI scoreTXT;
     public TextMeshProUGUI maxscore;
     private int _score;
+    public GameObject water;
     #endregion
 
     // sin este awake no genera su instancia y no la pillan las plumbs
@@ -125,11 +127,12 @@ public class Player_Control : MonoBehaviour
             RaycastHit hit;
             #endregion
 
-            //en rango colisiono con plumb rota, llamo a cambio de estado y sumo puntos
+            //en rango colisiono con plumb rota, llamo al switch, sumo puntos y resto agua
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.CompareTag("plumbroke"))
             {
                 Plumb_Controler plumToRepare = hit.collider.GetComponentInParent<Plumb_Controler>();
                 plumToRepare.SwitchState();
+                water.transform.position += new Vector3(0, -10, 0) * Time.deltaTime;
                 _score += 10;
                 scoreTXT.text = "Earned: " + _score.ToString() + " $";
             }
@@ -169,14 +172,14 @@ public class Player_Control : MonoBehaviour
             timer += Time.deltaTime; // suma el timer
             if (timer > 0.2f) //si es mayor de 02
             {
-                luzactual -= Time.deltaTime/4; // cuanto +, + lento baja la intensidad
+                luzactual -= Time.deltaTime/5; // cuanto +, + lento baja la intensidad
                 animator.SetBool("SACAR_LINTERNA", false); // quite la animacion
             }
         }
         else //que al hacer scroll se ponga la animacion y suba la intensidad con el timer a 0
         {
             animator.SetBool("SACAR_LINTERNA", true);
-            luzactual += Time.deltaTime*8; // cuanto +, +rapido recargas
+            luzactual += Time.deltaTime*10; // cuanto +, +rapido recargas
             timer = 0;
         }
         luzactual = Mathf.Clamp(luzactual, luzmin, luzmax); //pone la luz actual

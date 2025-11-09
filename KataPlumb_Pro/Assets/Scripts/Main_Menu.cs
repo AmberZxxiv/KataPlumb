@@ -9,6 +9,12 @@ public class Main_Menu : MonoBehaviour
     public Player_Control _PC;
     public TextMeshProUGUI maxscore;
 
+
+    public Animator animator;
+    public Animator animatorCAM;
+    public GameObject alcantarilla;
+    public Camera Cam;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +23,9 @@ public class Main_Menu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
+
+        animator = alcantarilla.GetComponent<Animator>();
+        animatorCAM = Cam.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -27,6 +36,8 @@ public class Main_Menu : MonoBehaviour
 
     public void StartGame() // recarga la escena de juego
     {
+        animator.SetBool("JUGAR", true);
+        animatorCAM.SetBool("JUGAR", true);
         SceneManager.LoadScene(1);
     }
 

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Main_Menu : MonoBehaviour
 {
@@ -12,8 +14,14 @@ public class Main_Menu : MonoBehaviour
 
     public Animator animator;
     public Animator animatorCAM;
+    public Animator animatorEsca;
     public GameObject alcantarilla;
     public Camera Cam;
+    public GameObject esca;
+    public GameObject Canvas;
+    public Button boton;
+    public GameObject craga;
+    public GameObject textos;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +34,7 @@ public class Main_Menu : MonoBehaviour
 
         animator = alcantarilla.GetComponent<Animator>();
         animatorCAM = Cam.GetComponent<Animator>();
+        animatorEsca = esca.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -38,12 +47,27 @@ public class Main_Menu : MonoBehaviour
     {
         animator.SetBool("JUGAR", true);
         animatorCAM.SetBool("JUGAR", true);
-        SceneManager.LoadScene(1);
+        animatorEsca.SetBool("JUGAR", true);
+        maxscore.gameObject.SetActive(false);
+        boton.gameObject.SetActive(false);
+        StartCoroutine(Espera());
     }
 
     public void ExitGame()
     {
         Debug.Log("Salgo del .exe");
         Application.Quit();
+    }
+
+    IEnumerator Espera() 
+    {
+        Debug.Log("ESPERA");
+        yield return new WaitForSeconds(2);
+        textos.SetActive(true);
+        craga.SetActive(true);
+        Debug.Log("espera a que carge impaciente");
+        yield return new WaitForSeconds(5);
+        Debug.Log("ya esta");
+        SceneManager.LoadScene(1);
     }
 }

@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Timeline;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Crocodile_Controller : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public GameObject goalDestination;
+    public AudioSource audioSource;
+    public List<AudioClip> audioClip;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        StartCoroutine(CrocoSounds());
     }
 
     // Update is called once per frame
@@ -54,5 +58,21 @@ public class Crocodile_Controller : MonoBehaviour
                 break;
         }
         navMeshAgent.speed = actualSpeed;
+    }
+
+    IEnumerator CrocoSounds()
+    {
+        yield return new WaitForSeconds(5);
+
+        PlaySonido();
+
+        StartCoroutine(CrocoSounds());
+    }
+
+    void PlaySonido() // reproducir el audio clip de la lista
+    {
+        audioSource.clip = audioClip[Random.Range(0, audioClip.Count)];
+        audioSource.pitch = Random.Range(0.85f, 1.05f);
+        audioSource.Play();
     }
 }

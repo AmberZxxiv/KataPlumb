@@ -22,6 +22,8 @@ public class Main_Menu : MonoBehaviour
     public Button boton;
     public GameObject craga;
     public GameObject textos;
+    public AudioSource entrance;
+    public AudioSource streets;
 
     // Start is called before the first frame update
     void Start()
@@ -45,11 +47,13 @@ public class Main_Menu : MonoBehaviour
 
     public void StartGame() // recarga la escena de juego
     {
+        entrance.Play();
         animator.SetBool("JUGAR", true);
         animatorCAM.SetBool("JUGAR", true);
         animatorEsca.SetBool("JUGAR", true);
         maxscore.gameObject.SetActive(false);
         boton.gameObject.SetActive(false);
+        streets.Stop();
         StartCoroutine(Espera());
     }
 

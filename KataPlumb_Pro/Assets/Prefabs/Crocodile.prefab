@@ -147,7 +147,9 @@ MonoBehaviour:
   navMeshAgent: {fileID: 3987063782809190605}
   goalDestination: {fileID: 0}
   AudioSource: {fileID: 7612368221327710249}
-  predatorSounds: []
+  audioClips:
+  - {fileID: 8300000, guid: 564e69bfaf4fa354b919abe3e689ac33, type: 3}
+  - {fileID: 8300000, guid: 5e01f95398a209a49b8c42b845a473c5, type: 3}
 --- !u!95 &1351957153929812966
 Animator:
   serializedVersion: 5

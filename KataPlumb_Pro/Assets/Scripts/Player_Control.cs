@@ -50,6 +50,12 @@ public class Player_Control : MonoBehaviour
     public float luzmax = 5f;
     public float luzmin = 0f;
     public float luzactual;
+    public AudioSource playerSounds;
+    public AudioSource backroundSounds;
+    public AudioClip dinamo;
+    public AudioClip repair;
+    public AudioClip mordisco;
+
     #endregion
 
     #region //// SCORE ////
@@ -75,6 +81,7 @@ public class Player_Control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        backroundSounds.Play();
         rb = GetComponent<Rigidbody>();
         playerSpeed = NavMeshAgent.speed;
         Time.timeScale = 1;
@@ -130,6 +137,8 @@ public class Player_Control : MonoBehaviour
             //en rango colisiono con plumb rota, llamo al switch, sumo puntos y resto agua
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.CompareTag("plumbroke"))
             {
+                playerSounds.clip = repair;
+                playerSounds.Play();
                 Plumb_Controler plumToRepare = hit.collider.GetComponentInParent<Plumb_Controler>();
                 plumToRepare.SwitchState();
                 water.transform.position += new Vector3(0, -10, 0) * Time.deltaTime;
@@ -140,6 +149,7 @@ public class Player_Control : MonoBehaviour
             //dentro del rango colisiono con la verja de salida, activo FIN DE JORNADA
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.CompareTag("exitdoor"))
             {
+                backroundSounds.Stop();
                 SetMaxScore();
                 Time.timeScale = 0;
                 exitMenu.SetActive(true);
@@ -151,6 +161,7 @@ public class Player_Control : MonoBehaviour
         // si el agua llega al límite, activamos la muerte por ahogamiento
         if (water.transform.position.y >= 10.35f)
         {
+            backroundSounds.Stop();
             maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
             Time.timeScale = 0;
             drownedMenu.SetActive(true);
@@ -161,6 +172,7 @@ public class Player_Control : MonoBehaviour
         // pulsamos ESC para panel de PAUSA
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            backroundSounds.Stop();
             maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
             Time.timeScale = 0;
             pauseMenu.SetActive(true);
@@ -188,6 +200,8 @@ public class Player_Control : MonoBehaviour
         }
         else //que al hacer scroll se ponga la animacion y suba la intensidad con el timer a 0
         {
+            playerSounds.clip = dinamo;
+            playerSounds.Play();
             animator.SetBool("SACAR_LINTERNA", true);
             luzactual += Time.deltaTime*10; // cuanto +, +rapido recargas
             timer = 0;
@@ -220,9 +234,11 @@ public class Player_Control : MonoBehaviour
         // si te choca el cocodrilo, activo el menu de comido
         if (other.CompareTag("crocodile"))
         {
+            backroundSounds.Stop();
+            playerSounds.clip = mordisco;
+            playerSounds.Play();
             maxscore.text = "Employee of the Game: " + PlayerPrefs.GetInt("MaxScore").ToString() + " $";
             eatedMenu.SetActive(true);
-            //Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -230,6 +246,7 @@ public class Player_Control : MonoBehaviour
 
     public void QuitPause() // quita el panel de pausa, reanuda el tiempo y quita el cursor
     {
+        backroundSounds.Play();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         pauseMenu.SetActive(false);

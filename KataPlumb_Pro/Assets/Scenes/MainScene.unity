@@ -15660,7 +15660,7 @@ MonoBehaviour:
   backroundSounds: {fileID: 383237130}
   dinamo: {fileID: 8300000, guid: 1b0f8736bfa589d4e885ccc24f666c77, type: 3}
   repair: {fileID: 8300000, guid: 9b23e18e4d449f64a80ddba5c86cd029, type: 3}
-  mordisco: {fileID: 8300000, guid: 08c5e2fc0bded394cad5ad94247ff7a5, type: 3}
+  mordisco: {fileID: 8300000, guid: 07efac7763983044d93f97ebb29cb3cb, type: 3}
   scoreTXT: {fileID: 1670172611}
   maxscore: {fileID: 7689926169024730985, guid: 572b1231969c34c4ca828ed7feac6cb9, type: 3}
   water: {fileID: 1348676697}

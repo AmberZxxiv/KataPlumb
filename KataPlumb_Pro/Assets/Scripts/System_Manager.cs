@@ -17,7 +17,8 @@ public class System_Manager : MonoBehaviour
 
     // controlador del agua
     public GameObject water;
-
+    public float waterStep;
+    public float waterPositionY;
     // sin este awake no genera su instancia y no la pillan las plumbs
     void Awake()
     {
@@ -35,8 +36,15 @@ public class System_Manager : MonoBehaviour
     private void Start()
     {
         StartCoroutine("BreakRandomPlumb");
+        waterPositionY = water.transform.position.y;
     }
-
+    private void Update()
+    {
+        if (water.transform.position.y != waterPositionY)
+        {
+            water.transform.position = new Vector3(0, Mathf.MoveTowards(water.transform.position.y, waterPositionY, .5f*Time.deltaTime), 0);
+        }
+    }
     // recibo la plumb que se quiere unir y compruebo que no esté ya en la lista
     public void CountPlumb (Plumb_Controler newPlumb)
     {
@@ -58,9 +66,11 @@ public class System_Manager : MonoBehaviour
         if (!plumToBreak.isBroken && canWeBreak)
         {
             plumToBreak.SwitchState();
-            water.transform.position += new Vector3(0, 10, 0) * Time.deltaTime;
+            //water.transform.position += new Vector3(0, 10, 0) * Time.deltaTime;
+            waterPositionY += waterStep;
         }
 
         StartCoroutine(BreakRandomPlumb());
     }
+
 }

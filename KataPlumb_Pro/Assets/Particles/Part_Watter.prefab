@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.15312387, g: 0.2924528, b: 0.22041364, a: 1}
+      maxColor: {r: 0.23028658, g: 0.3571873, b: 0.4245283, a: 0.89411765}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1308,9 +1308,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.19749613, g: 0.24528301, b: 0.12362264, a: 0}
-        key1: {r: 0.19749613, g: 0.24528301, b: 0.12362264, a: 1}
-        key2: {r: 0.26159757, g: 0.29945144, b: 0.20307949, a: 1}
+        key0: {r: 0.1254902, g: 0.22291183, b: 0.24705882, a: 0}
+        key1: {r: 0.22895159, g: 0.42117834, b: 0.46226418, a: 1}
+        key2: {r: 0.20392157, g: 0.26446563, b: 0.29803923, a: 1}
         key3: {r: 0.5058824, g: 0.5058824, b: 0.5058824, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -5056,7 +5056,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.13483447, g: 0.2830189, b: 0.19583376, a: 1}
+      maxColor: {r: 0.08566215, g: 0.6825889, b: 0.7264151, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -6141,9 +6141,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.19749613, g: 0.24528301, b: 0.12362264, a: 0}
-        key1: {r: 0.19749613, g: 0.24528301, b: 0.12362264, a: 1}
-        key2: {r: 0.26159757, g: 0.29945144, b: 0.20307949, a: 1}
+        key0: {r: 0.24136703, g: 0.4528302, b: 0.41634244, a: 0}
+        key1: {r: 0.1728818, g: 0.30223694, b: 0.3490566, a: 1}
+        key2: {r: 0.21333215, g: 0.3207547, b: 0.24956855, a: 1}
         key3: {r: 0.5058824, g: 0.5058824, b: 0.5058824, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}

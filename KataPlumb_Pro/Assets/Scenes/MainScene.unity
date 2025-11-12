@@ -10408,6 +10408,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crocodile
       objectReference: {fileID: 0}
+    - target: {fileID: 1408783805317405832, guid: 520e991d390a7084796107f1235d74f4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2647720062823786796, guid: 520e991d390a7084796107f1235d74f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -30.79
@@ -14465,6 +14469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plumbs: []
   water: {fileID: 1348676697}
+  waterStep: 0.05
+  waterPositionY: 0
 --- !u!1001 &865269295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15637,6 +15643,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1925401182}
   eatedMenu: {fileID: 883740476}
   drownedMenu: {fileID: 1042522809}
+  drownedPostpo: {fileID: 1539787112}
   NavMeshAgent: {fileID: 949722416}
   actualTarget: 0
   targets:
@@ -24279,6 +24286,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1324852833841459638, guid: 5fbf7bfaaf5f10247a388d2b2adc2d00, type: 3}
   m_PrefabInstance: {fileID: 1528709023}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1539787112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1539787114}
+  - component: {fileID: 1539787113}
+  m_Layer: 0
+  m_Name: Drowned_Postpo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1539787113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539787112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: d161c483b8d6dae438cc72baf7f571b2, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 10
+--- !u!4 &1539787114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539787112}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.77, y: 9.299999, z: -2.4179997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1547187269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32434,3 +32490,4 @@ SceneRoots:
   - {fileID: 1348676701}
   - {fileID: 638567662}
   - {fileID: 1495441759}
+  - {fileID: 1539787114}

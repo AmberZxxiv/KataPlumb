@@ -18,6 +18,7 @@ public class Player_Control : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject eatedMenu;
     public GameObject drownedMenu;
+    public GameObject drownedPostpo;
     #endregion
 
     #region //// PLAYER MOVEMENT ////
@@ -141,7 +142,8 @@ public class Player_Control : MonoBehaviour
                 playerSounds.Play();
                 Plumb_Controler plumToRepare = hit.collider.GetComponentInParent<Plumb_Controler>();
                 plumToRepare.SwitchState();
-                water.transform.position += new Vector3(0, -10, 0) * Time.deltaTime;
+                //water.transform.position += new Vector3(0, -10, 0) * Time.deltaTime;
+                System_Manager.instance.waterPositionY -= System_Manager.instance.waterStep*4;
                 _score += 10;
                 scoreTXT.text = "Earned: " + _score.ToString() + " $";
             }
@@ -156,6 +158,15 @@ public class Player_Control : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+        }
+
+        if (water.transform.position.y >= 9.7f)
+        {
+            drownedPostpo.SetActive(true);
+        }
+        if (water.transform.position.y <= 9.7f)
+        {
+            drownedPostpo.SetActive(false);
         }
 
         // si el agua llega al límite, activamos la muerte por ahogamiento

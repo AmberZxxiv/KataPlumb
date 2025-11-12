@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player_Control : MonoBehaviour
 {
@@ -143,7 +140,7 @@ public class Player_Control : MonoBehaviour
                 Plumb_Controler plumToRepare = hit.collider.GetComponentInParent<Plumb_Controler>();
                 plumToRepare.SwitchState();
                 //water.transform.position += new Vector3(0, -10, 0) * Time.deltaTime;
-                System_Manager.instance.waterPositionY -= System_Manager.instance.waterStep*4;
+                System_Manager.instance.waterPositionY -= System_Manager.instance.waterStep*2;
                 _score += 10;
                 scoreTXT.text = "Earned: " + _score.ToString() + " $";
             }
